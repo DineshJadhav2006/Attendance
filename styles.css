@@ -1,0 +1,228 @@
+:root {
+  --bg: #0f1520;
+  --panel: #141a29;
+  --text: #e5eaf5;
+  --muted: #9aa3b2;
+  --primary: #4f7cff;
+  --accent: #ffb64f;
+  --danger: #ff5f6d;
+  --success: #3fd39a;
+  --border: #253050;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, 'Segoe UI', Roboto, Arial, sans-serif;
+  background: radial-gradient(1200px 600px at 20% 0%, #071125 8%, var(--bg));
+  color: var(--text);
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+
+.app-header, .app-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; background: #0c1324; border-bottom: 1px solid var(--border);
+}
+.app-footer { border-top: 1px solid var(--border); }
+
+.brand { display: flex; align-items: center; gap: 10px; }
+.logo { font-size: 22px; }
+h1 { font-size: 20px; margin: 0; font-weight: 700; letter-spacing: -0.2px; }
+h2 { font-size: 18px; margin: 0 0 12px; }
+h3 { margin: 0 0 8px; font-size: 16px; }
+.tagline { margin: 2px 0 0; color: var(--muted); font-size: 12px; }
+
+.lang-switch { display: flex; gap: 8px; }
+
+.layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 16px;
+  padding: 16px;
+}
+
+.panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 12px 30px rgba(2,6,23,0.5);
+  backdrop-filter: blur(6px);
+}
+
+.controls { grid-column: 1; }
+.map { grid-column: 2; grid-row: 1; }
+.assistant-section { grid-column: 2; }
+.intelligence { grid-column: 1; }
+.alerts { grid-column: 1 / span 2; }
+
+.control-group { margin-bottom: 12px; }
+.control-group label { display: block; margin-bottom: 6px; }
+input[type="text"], select {
+  width: 100%; padding: 8px 10px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.04); background: rgba(8,16,30,0.6); color: var(--text);
+}
+input[type="range"] { width: 100%; }
+.help { color: var(--muted); }
+
+.toggles { display: flex; gap: 10px; flex-wrap: wrap; }
+.toggles label { background: #0f162a; padding: 6px 8px; border-radius: 10px; border: 1px solid var(--border); }
+
+.btn {
+  background: linear-gradient(180deg,#153360,#0f2a58); color: var(--text);
+  border: 1px solid rgba(255,255,255,0.03); border-radius: 10px;
+  padding: 8px 12px; cursor: pointer; transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn:hover { border-color: var(--primary); transform: translateY(-2px); }
+.btn.primary { background: var(--primary); border-color: #3b60d8; box-shadow: 0 8px 20px rgba(59,96,216,0.14); }
+.btn-ghost { background: transparent; }
+.btn:active { transform: translateY(0px); }
+
+/* Icon-style circular button for GPS */
+.btn.btn-icon {
+  width: 40px; height: 40px; padding: 0; border-radius: 999px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(180deg, #1976d2, #0b64d6); border-color: rgba(0,0,0,0.25);
+  box-shadow: 0 6px 18px rgba(11,99,180,0.25);
+}
+.btn.btn-icon svg { display: block; }
+.btn.btn-icon:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(11,99,180,0.32); }
+
+/* GPS image inside button */
+.gps-img {
+  width: 20px; height: 20px; display: block;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));
+}
+
+/* Inline icon left spacing for buttons */
+.btn-icon-left { margin-right: 8px; vertical-align: middle; fill: currentColor; }
+.btn svg[width="16"] { display: inline-block; vertical-align: middle; }
+
+.map-header { display: flex; align-items: center; justify-content: space-between; }
+.legend { display: flex; gap: 12px; color: var(--muted); }
+.swatch { display: inline-block; width: 16px; height: 10px; border-radius: 4px; margin-right: 6px; }
+.swatch.low { background: #275f3a; }
+.swatch.med { background: #b58f33; }
+.swatch.high { background: #913035; }
+
+.map-actions { margin-top: 10px; display: flex; gap: 8px; }
+
+/* AI Assistant styles */
+.assistant-panel { margin-top: 14px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06)); border: 1px solid rgba(255,255,255,0.03); padding: 14px; border-radius: 12px; }
+.assistant-messages { max-height: 220px; overflow: auto; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06)); border: 1px solid rgba(255,255,255,0.03); padding: 10px; border-radius: 10px; margin-bottom: 10px; }
+.assistant-input { display: flex; gap: 8px; }
+.assistant-input input { flex: 1; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.03); background: rgba(8,16,30,0.6); color: var(--text); }
+.assistant-message { margin: 8px 0; padding: 10px 12px; border-radius: 12px; max-width: 88%; box-shadow: 0 6px 14px rgba(0,0,0,0.45); }
+.assistant-message.user { background: linear-gradient(90deg,#0f314d,#102b46); margin-left: auto; text-align: right; color: #eaf3ff; }
+.assistant-message.assistant { background: linear-gradient(90deg,#071726,#0b2636); margin-right: auto; color: #eaf3ff; }
+
+.assistant-message code { background: rgba(0,0,0,0.12); padding: 2px 6px; border-radius: 6px; font-size: 0.95em; }
+
+/* message icon + text layout */
+.assistant-message { display: flex; align-items: flex-start; gap: 10px; }
+.assistant-message .msg-icon { width: 28px; height: 28px; flex: 0 0 28px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
+.assistant-message .msg-icon svg { display: block; }
+.assistant-message .msg-text { white-space: pre-wrap; line-height: 1.3; }
+
+.intel-grid {
+  display: grid; gap: 10px;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.card {
+  background: #0f162a; border: 1px solid var(--border);
+  border-radius: 12px; padding: 12px;
+}
+
+.bullets { padding-left: 18px; }
+.bullets li { margin-bottom: 6px; }
+
+.feed {
+  display: grid; gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+.alert-card {
+  border: 1px solid var(--border); border-left: 6px solid var(--accent);
+  background: #0f162a; border-radius: 10px; padding: 10px;
+}
+.alert-card.high { border-left-color: var(--danger); }
+.alert-card.medium { border-left-color: var(--accent); }
+.alert-card.low { border-left-color: var(--success); }
+.alert-title { font-weight: 600; margin-bottom: 6px; }
+.alert-meta { color: var(--muted); font-size: 12px; }
+
+.gauge {
+  height: 16px; border-radius: 10px; background: #0c1324; border: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.gauge::after {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 0%;
+  background: linear-gradient(90deg, #3fd39a, #ffb64f, #ff5f6d);
+  transition: width .6s ease;
+}
+
+#mapCanvas { border-radius: 12px; box-shadow: 0 18px 40px rgba(2,8,25,0.6); border: 1px solid rgba(255,255,255,0.03); }
+
+/* Weather tiles grid */
+.weather-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.weather-tile {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 12px; padding: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.03);
+}
+.weather-tile.large { grid-column: span 2; background: linear-gradient(90deg, #1976d2, #0b64d6); color: white; }
+.weather-tile .metric { font-size: 28px; font-weight: 700; margin-top:6px; }
+.weather-tile .label { color: var(--muted); font-size: 13px; margin-top:4px; }
+
+/* Emergency Helplines Section */
+.helplines-section { grid-column: 2; }
+.helplines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+.helpline-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06));
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+.helpline-card:hover {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.08));
+  border-color: var(--danger);
+  box-shadow: 0 8px 20px rgba(255, 95, 109, 0.15);
+  transform: translateY(-2px);
+}
+.helpline-card h4 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.helpline-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--danger);
+  text-decoration: none;
+  display: block;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.helpline-number:hover {
+  color: var(--accent);
+  transform: scale(1.1);
+}
+.helpline-number:active {
+  transform: scale(0.98);
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+  .layout { grid-template-columns: 1fr; }
+  .map { grid-column: 1; grid-row: auto; }
+  .alerts { grid-column: 1; }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "ai-disaster-watch-local",
+  "version": "0.1.0",
+  "description": "Local proxy to hold API key securely for the demo frontend.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.18.2",
+    "openai": "^4.8.0"
+  }
+}

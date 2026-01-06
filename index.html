@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Disaster Watch</title>
+  <!-- Improve typography with Inter from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>⚠️</text></svg>">
+</head>
+<body>
+  <header class="app-header" role="banner" aria-label="AI Disaster Watch Header">
+    <div class="brand">
+      <span class="logo">⚠️</span>
+      <div>
+        <h1>AI Disaster Watch</h1>
+        <p class="tagline">Community-first early warning & preparedness demo</p>
+      </div>
+    </div>
+    <div class="lang-switch" aria-label="Language switch">
+      <button id="lang-en" class="btn btn-ghost" aria-pressed="true">English</button>
+      <button id="lang-mr" class="btn btn-ghost" aria-pressed="false">मराठी</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel controls" aria-label="Controls">
+      <h2 data-i18n="controls_title">Controls</h2>
+
+      <div class="control-group">
+        <label for="location" data-i18n="location_label"><strong>Location:</strong></label>
+        <input id="location" type="text" placeholder="Rahta, MH, India" aria-describedby="locationHelp" list="locationList" />
+        <small id="locationHelp" class="help" data-i18n="location_help">Enter city/town or coordinates, or choose from the list.</small>
+        <select id="locationPreset" aria-label="Choose a city">
+          <option value="">-- Choose a city --</option>
+          <option value="Pune, MH, India">Pune, MH, India</option>
+          <option value="Mumbai, MH, India">Mumbai, MH, India</option>
+          <option value="Nagpur, MH, India">Nagpur, MH, India</option>
+          <option value="Delhi, India">Delhi, India</option>
+          <option value="Bengaluru, KA, India">Bengaluru, KA, India</option>
+          <option value="Hyderabad, TG, India">Hyderabad, TG, India</option>
+          <option value="Chennai, TN, India">Chennai, TN, India</option>
+          <option value="Kolkata, WB, India">Kolkata, WB, India</option>
+          <option value="Jaipur, RJ, India">Jaipur, RJ, India</option>
+        </select>
+        <button id="use-gps" class="btn" title="Use GPS" aria-label="Use GPS" data-i18n="use_gps">
+          <img src="assets/gps-icon.png" alt="Use GPS" class="gps-img" />
+        </button>
+        <span id="gpsConfirmContainer" style="display:none; margin-left:8px;"><button id="confirmGps" class="btn">Confirm current location</button></span>
+      </div>
+
+      <div class="control-group">
+        <label for="disasterType"><strong>Disaster type:</strong></label>
+        <select id="disasterType" aria-label="Disaster type">
+          <option value="flood">Flood</option>
+          <option value="earthquake">Earthquake</option>
+          <option value="cyclone">Cyclone</option>
+          <option value="heatwave">Heatwave</option>
+          <option value="landslide">Landslide</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="timeHorizon"><strong>Time horizon (hours):</strong></label>
+        <input id="timeHorizon" type="range" min="1" max="72" value="24" />
+        <span id="timeHorizonValue">24h</span>
+      </div>
+
+      <div class="control-group">
+        <label><strong>Alert preferences:</strong></label>
+        <div class="toggles">
+          <label><input type="checkbox" id="pushAlerts" checked /> Push alerts</label>
+          <label><input type="checkbox" id="smsAlerts" /> SMS webhook</label>
+          <label><input type="checkbox" id="quietHours" /> Do not disturb (22:00–06:00)</label>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label><strong>Risk profile:</strong></label>
+        <div class="toggles">
+          <label><input type="checkbox" id="nearRiver" /> Near river</label>
+          <label><input type="checkbox" id="oldBuilding" /> Old building</label>
+          <label><input type="checkbox" id="flatRoof" /> Flat roof</label>
+        </div>
+      </div>
+
+      <button id="predict" class="btn primary" data-i18n="predict_btn">
+        <!-- bolt icon -->
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" class="btn-icon-left"><path d="M13 2L3 14h7l-1 8L21 10h-7l-1-8z" fill="currentColor"/></svg>
+        Run AI prediction
+      </button>
+      <button id="subscribe" class="btn">
+        <!-- bell icon -->
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" class="btn-icon-left"><path d="M12 22c1.1 0 1.99-.9 1.99-2H10c0 1.1.89 2 2 2zm6-6V11c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 10-3 0v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" fill="currentColor"/></svg>
+        Subscribe to area alerts
+      </button>
+      <button id="showOutput" class="btn">
+        <!-- code/cloud icon -->
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" class="btn-icon-left"><path d="M12 2a7 7 0 00-7 7v1H4a2 2 0 00-2 2v4a2 2 0 002 2h6v-2H4v-4h1v-1a5 5 0 1110 0v1h1v4h-4v2h6a2 2 0 002-2v-4a2 2 0 00-2-2h-1V9a7 7 0 00-7-7z" fill="currentColor"/></svg>
+        Show API output
+      </button>
+    </section>
+
+    <section class="panel map" aria-label="Map and overlays">
+      <div class="map-header">
+        <h2 data-i18n="map_title">Risk map</h2>
+        <div class="legend" aria-label="Legend">
+          <span><span class="swatch low"></span>Low</span>
+          <span><span class="swatch med"></span>Medium</span>
+          <span><span class="swatch high"></span>High</span>
+        </div>
+      </div>
+      <canvas id="mapCanvas" width="700" height="420" role="img" aria-label="Risk map with overlays"></canvas>
+      <div class="map-actions">
+        <button id="recenter" class="btn">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" class="btn-icon-left"><path d="M12 8v4l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Recenter
+        </button>
+        <button id="toggleHeat" class="btn">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" class="btn-icon-left"><path d="M12 2s4 4 4 8-1.79 6-4 8c-2.21-2-4-5-4-8s4-8 4-8z" fill="currentColor"/></svg>
+          Toggle heat
+        </button>
+        <button id="downloadPNG" class="btn">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" class="btn-icon-left"><path d="M12 3v10m0 0l-4-4m4 4l4-4M4 21h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Download map
+        </button>
+      </div>
+      <!-- AI Assistant (below the map) -->
+      <div class="assistant-panel" aria-label="AI Assistant">
+        <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="vertical-align:middle; margin-right:8px;"><circle cx="12" cy="12" r="9" fill="#0f9d58"/><path d="M8 12c0-2 2-4 4-4s4 2 4 4-2 4-4 4-4-2-4-4z" fill="#fff" opacity="0.95"/></svg>AI Assistant</h3>
+        <div id="assistantMessages" class="assistant-messages" aria-live="polite"></div>
+        <div style="margin-bottom:8px;">
+          <button id="assistantSuggestPlants" class="btn">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" class="btn-icon-left"><path d="M12 2C8 6 6 8 6 12c0 4 4 6 6 10 2-4 6-6 6-10 0-4-2-6-6-10z" fill="currentColor"/></svg>
+            Suggest plants
+          </button>
+          <button id="assistantSuggestKit" class="btn">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" class="btn-icon-left"><path d="M9 2h6v2H9V2zm3 5v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 8h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V8z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Emergency kit checklist
+          </button>
+        </div>
+        <div style="margin-bottom:8px; display:flex; gap:8px; align-items:center;">
+          <label for="assistantSeason"><strong>Season:</strong></label>
+          <select id="assistantSeason" aria-label="Season selector">
+            <option value="summer">Summer</option>
+            <option value="monsoon">Monsoon</option>
+            <option value="winter">Winter</option>
+          </select>
+          <label style="margin-left:12px;"><input id="assistantUseLocation" type="checkbox" checked /> Use location field</label>
+        </div>
+        <div class="assistant-input">
+          <input id="assistantInput" type="text" placeholder="Ask for advice, predictions, or recommendations..." />
+          <button id="assistantSend" class="btn">Send</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Emergency Helplines Section -->
+    <section class="panel helplines-section" aria-label="Emergency Helplines">
+      <h2>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="vertical-align:middle; margin-right:8px;"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        Emergency Helplines
+      </h2>
+      <div class="helplines-grid">
+        <div class="helpline-card">
+          <h4>National Disaster Helpline:</h4>
+          <a href="tel:1078" class="helpline-number">1078</a>
+        </div>
+        <div class="helpline-card">
+          <h4>Police:</h4>
+          <a href="tel:112" class="helpline-number">112</a>
+        </div>
+        <div class="helpline-card">
+          <h4>Ambulance:</h4>
+          <a href="tel:108" class="helpline-number">108</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel intelligence" aria-label="AI intelligence">
+      <h2 data-i18n="intel_title">AI intelligence</h2>
+      <div class="intel-grid">
+        <div class="card">
+          <h3>Confidence</h3>
+          <div class="gauge" id="confidenceGauge" aria-label="Confidence gauge"></div>
+          <p id="confidenceText">—</p>
+        </div>
+        <div class="card">
+          <h3>Impact radius</h3>
+          <p id="impactRadius">—</p>
+          <p id="affectedPop">—</p>
+        </div>
+        <div class="card">
+          <h3>Recommendations</h3>
+          <ul id="recommendations" class="bullets"></ul>
+          <h4>API output</h4>
+          <pre id="apiOutput" class="api-output">—</pre>
+          <div id="weatherControls" style="margin-top:8px; display:flex; gap:8px; align-items:center;">
+            <button id="showDemoWeather" class="btn">Show demo weather</button>
+            <div id="apiStatus" style="color:var(--muted); font-size:13px;"></div>
+          </div>
+          <div id="weatherGrid" class="weather-grid" style="display:none; margin-top:12px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel alerts" aria-label="Alerts">
+      <h2 data-i18n="alerts_title">Alerts</h2>
+      <div id="alertsFeed" class="feed" aria-live="polite" aria-atomic="false"></div>
+      <div class="alert-actions">
+        <button id="simulateAlert" class="btn">Simulate alert</button>
+        <button id="clearAlerts" class="btn">Clear</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer" role="contentinfo">
+    <p>
+      <small>Last updated: <span id="lastUpdated">—</span></small>
+    </p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
