@@ -7,7 +7,7 @@ Important: Do NOT commit your real key to the repository. The server reads `proc
 Quick start (Windows PowerShell):
 
 ```powershell
-cd "c:\Users\GHEMUD RUTUJA\Desktop\motivation.html"
+cd "c:\Users\Dinesh Jadhav\Desktop\motivation.html"
 copy .env.example .env
 # Edit .env and paste your key after the = sign (do NOT commit .env)
 npm install
